@@ -11,7 +11,7 @@ var config = {
         {
             id: 'chapter1',
             alignment: 'right',
-            title: 'Prisons in NYS',
+            title: 'History of Mass incarceration',
             image: '',
             description: 'Facts about prisons nyc',
             location: {
@@ -34,7 +34,7 @@ var config = {
         {
             id: 'chapter2',
             alignment: 'left',
-            title: 'Chapter 2',
+            title: 'System Diagram',
             image: '',
             description: 'uam erat volutpat. Sed ullamcorper convallis eros ut auctor. Cras vel iaculis ligula, et vestibulum metus.',
             location: {
