@@ -11,24 +11,24 @@ var config = {
         {
             id: 'chapter1',
             alignment: 'right',
-            title: 'History of Mass incarceration',
+            title: 'Junho Lee',
             image: '',
             description: 'Facts about prisons nyc',
             location: {
                 center: [-75.922,42.347],
-                zoom: 7.1,
+                zoom: 8.0,
                 pitch: 0,
                 bearing: 0.00
             },
             onChapterEnter: [
                 {layer: 'census', opacity: 0 },
-                {layer: 'major_industry', opacity: 1.0},
-                {layer: 'prison_text', opacity: 1.0 },
-                {layer: 'prison', opacity: 0.8 },
-                {layer: 'satellite', opacity: 0.5 },
-                {layer: 'Historical_population', opacity:0 },
-                {layer: 'Population_at_closing', opacity:0 },
-                {layer: 'Population_at_opening', opacity:0 },
+                {layer: 'major_industry', opacity: 0.0},
+                {layer: 'prison_text', opacity: 0.0 },
+                {layer: 'prison', opacity: 0.0 },
+                {layer: 'satellite', opacity: 1.0 },
+                {layer: 'Historical_population', opacity:0.0 },
+                {layer: 'Population_at_closing', opacity:0.0 },
+                {layer: 'Population_at_opening', opacity:0.0 },
             ],
             onChapterExit: [
               
@@ -51,8 +51,8 @@ var config = {
                 {layer: 'major_industry', opacity: 0},
                 {layer: 'prison_text', opacity: 1 },
                 {layer: 'prison', opacity: 0.8 },
-                {layer: 'satellite', opacity: 0.5 },
-                {layer: 'Historical_population', opacity:1.0 },
+                {layer: 'satellite', opacity: 1.0 },
+                {layer: 'Historical_population', opacity:0.0 },
                 {layer: 'Population_at_closing', opacity:0 },
                 {layer: 'Population_at_opening', opacity:0 },
             ],
@@ -141,4 +141,3 @@ var config = {
         },
     ]
 };
-
