@@ -52,7 +52,7 @@ document.addEventListener('scroll', function(e) {
     if(window.scrollY>innerHeight*4){
         console.log("map out");
         tile_frame.classList.add("fade_out");
-        // tile_frame.classList.remove("scroll_locked");
+        tile_frame.classList.remove("scroll_locked");
 
     }else if (window.scrollY>innerHeight*3) {
         console.log("halfway there");
