@@ -517,12 +517,3 @@ map.on("load", function() {
 
 // setup resize event
 window.addEventListener('resize', scroller.resize);
-
-
- window.onscroll = function(ev) {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-       console.log("bottom");
-       window.location = "individual_proj/Junho.html";
-    }
-};
-
