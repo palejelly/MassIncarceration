@@ -16,6 +16,11 @@ var alignments = {
     'fixed_left': 'fixed_left'
 }
 
+var prisonLngLat = [];
+var departXY_tileWindowCoord = [];
+var destXY_tileWindowCoord = [];
+
+
 function getLayerPaintType(layer) {
     var layerType = map.getLayer(layer).type;
     return layerTypes[layerType];
@@ -34,43 +39,21 @@ function setLayerOpacity(layer) {
     });
 }
 var innerHeight
+var innerWidth
+var scroll_progress
 //acquire innerheight to set the scroll event
 function setScroll(){
     innerHeight= window.innerHeight;
-    console.log(innerHeight);
+    innerWidth = window.innerWidth;
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
     setScroll();
-    console.log(innerHeight);
+    // console.log(innerHeight);
 
 });
 
 var tile_frame= document.querySelector("#tile_frame.slide");
-document.addEventListener('scroll', function(e) {
-    // console.log(window.scrollY);
-    if(window.scrollY>innerHeight*4){
-        console.log("map out");
-        tile_frame.classList.add("fade_out");
-        tile_frame.classList.remove("scroll_locked");
-
-    }else if (window.scrollY>innerHeight*3) {
-        console.log("halfway there");
-        for(let i in open_prison_div){
-            open_prison_div[i].classList.add("open");
-        }
-
-    }else if (window.scrollY>innerHeight*2) {
-        console.log("map reached");
-        tile_frame.classList.add("scroll_locked");
-        tile_frame.classList.remove("fade_out");
-        for(let i in open_prison_div){
-            open_prison_div[i].classList.remove("open");
-        }
-
-    }
-
-  });
   
 
 
@@ -137,8 +120,8 @@ function getAddress(username,style_id,lon,lat,zoom,width,height){
     return format(baseStr,username,style_id,lon,lat,zoom,width,height,'pk.eyJ1IjoicGFsZWplbGx5IiwiYSI6ImNrejhua2FvMzFtaTcyd3AxbTZ1M3ZxdmEifQ.UCz4YzJg9PHy9AgB1G_NMQ')
 }
 
-
-var keylist=[]
+var tilelist=[];
+var keylist=[];
 
 for (let key in test_arr[0]){
     keylist.push(key);
@@ -158,11 +141,14 @@ for (let i=0; i<list_length ; i++){
 
     box.setAttribute('id','map'.concat(String(i)));
     box.classList.add('tile');
-       
+    
 
     box_dom=insert_point.appendChild(box);
     box_insertpoint= document.getElementById('map'.concat(String(i)));
     box_insertpoint.appendChild(img_tag);
+
+    tilelist.push(box);
+
 
     var text_box = document.createElement("div");
     text_box.classList.add('tile_hover_text');
@@ -184,6 +170,8 @@ for (let i=0; i<list_length ; i++){
             // this means latitude and longitude information are all acquired. 
             var coord_a = document.createElement("a");
 
+            //put the coordinate into the list of tuples
+            prisonLngLat.push([coord['lng'],coord['lat']]);
             // sets anchor href for flyMap
             // for (let a in coord_anchor){
             //     coord_a.setAttribute('href',format('javascript:mapFly(map,[{0}])',[coord['lng'],coord['lat']]));
@@ -209,6 +197,7 @@ for (let i=0; i<list_length ; i++){
 
 
             // do this only once per prison
+
             lat_lng_check=0;
         }
 
@@ -317,6 +306,8 @@ for (let i=0; i<list_length ; i++){
 }
 const only_closed_checkbox = document.querySelector('input[id="only_closed"]');
 
+
+
 // only_closed_checkbox.onclick = () => {
 //     if(only_closed_checkbox.checked){
 //         for (let i in open_prison_div){
@@ -331,9 +322,91 @@ const only_closed_checkbox = document.querySelector('input[id="only_closed"]');
 // }
 
 
+// ----------------------tiling part ended.
 
 
 
+
+document.addEventListener('scroll', function(e) {
+    // console.log(window.scrollY);
+
+
+    if(window.scrollY>innerHeight*5){
+        console.log("map out");
+        tile_frame.classList.add("fade_out");
+        // tile_frame.classList.remove("scroll_locked");
+
+    }else if (window.scrollY>innerHeight*4) {
+        console.log("thrid");
+        scroll_progress = (window.scrollY-innerHeight*4)/innerHeight;
+        // tile_frame.style.opacity = 1-scroll_progress;
+        for(let i in tilelist){
+
+            tilelist[i].style.top=format("{0}px",(destXY_tileWindowCoord[i][1]-departXY_tileWindowCoord[i][1])*scroll_progress);
+
+
+            tilelist[i].style.left=format("{0}px",(destXY_tileWindowCoord[i][0]-departXY_tileWindowCoord[i][0])*scroll_progress);
+            
+
+            tilelist[i].style.borderRadius= format("{0}vw",8.13*scroll_progress);
+
+            tilelist[i].style.transform = format("scale({0})", 1-scroll_progress);
+
+            // tilelist[i].style.top=format("{0}px",50);
+            // tilelist[i].style.left=format("{0}px",10);
+        }
+    }else if (window.scrollY>innerHeight*3) {
+        console.log("second");
+        for(let i in open_prison_div){
+            open_prison_div[i].classList.add("open");
+        }
+        for(let i in tilelist){
+
+            
+            tilelist[i].style.top=format("{0}px",0);
+            tilelist[i].style.left=format("{0}px",0);
+        }
+
+    }else if (window.scrollY>innerHeight*2) {
+        // console.log("map reached");
+        acquireTileLocation([-80.01588907134725, 40.61072561851073, -72.89488934527353, 42.26025415432661]);
+        tile_frame.classList.add("scroll_locked");
+        tile_frame.classList.remove("fade_out");
+        for(let i in open_prison_div){
+            open_prison_div[i].classList.remove("open");
+        }
+    }else{
+        if (!tile_frame.classList.contains("fade_out")){
+                tile_frame.classList.add("fade_out");
+        }
+    }
+
+
+  });
+
+
+
+
+
+
+// prisonlnglat is defined at the beggining
+
+function acquireTileLocation(boundinglnglat){
+    for (let i in tilelist){
+        console.log("inside_tilelist");
+        departXY_tileWindowCoord.push([tilelist[i].getBoundingClientRect().left, tilelist[i].getBoundingClientRect().top]);
+
+        const destX_windowCoord = innerWidth/(boundinglnglat[2]-boundinglnglat[0])*(prisonLngLat[i][0]-boundinglnglat[0]);
+        const destY_windowCoord = innerHeight-innerHeight/(boundinglnglat[3]-boundinglnglat[1])*(prisonLngLat[i][1]-boundinglnglat[1]);
+        
+        destXY_tileWindowCoord.push([destX_windowCoord,destY_windowCoord]);
+
+
+    }
+    // console.log("departXY",departXY_tileWindowCoord);
+    // console.log("destXY",destXY_tileWindowCoord);
+
+}
 
 
 
