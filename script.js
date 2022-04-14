@@ -55,7 +55,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 var tile_frame= document.querySelector("#tile_frame.slide");
   
+var largemap_0= document.querySelector("#largemap_0");
 var largemap_1= document.querySelector("#largemap_1");
+var largemap_2= document.querySelector("#largemap_2");
 
 
 //--------------------------------- tiling part starts --------------------------------
@@ -330,9 +332,72 @@ let ticking = false;
 
 function foo() {
     if (!ticking) {
+
         ticking = true;
         requestAnimationFrame(() => {
-            console.log("Scrolled!");
+            if(window.scrollY>innerHeight*7){
+                largemap_2.style.display = "block";
+                largemap_2.style.opacity = 1;
+                largemap_1.style.opacity = 0;
+                largemap_1.style.display = "none";
+
+            }
+            else if(window.scrollY>innerHeight*6){
+                largemap_1.style.display = "block";
+                largemap_1.style.opacity = 1;
+                largemap_0.style.opacity = 0;
+                largemap_0.style.display = "none";
+
+
+            }else if(window.scrollY>innerHeight*5){
+                tile_frame.style.opacity = 0;
+
+                tile_frame.style.display = "none";
+                tile_frame.classList.add("fade_out");
+                
+
+                largemap_0.style.opacity = 1;
+                // tile_frame.classList.remove("scroll_locked");
+
+            }else if (window.scrollY>innerHeight*4) {
+                tile_frame.style.display = "block";
+
+                scroll_progress = (window.scrollY-innerHeight*4)/innerHeight;
+                largemap_0.style.opacity = scroll_progress;
+                tile_frame.style.opacity = 1-scroll_progress;
+                for(let i in tilelist){
+
+                    tilelist[i].style.top=format("{0}px",(destXY_tileWindowCoord[i][1]-departXY_tileWindowCoord[i][1])*scroll_progress);
+
+                    tilelist[i].style.left=format("{0}px",(destXY_tileWindowCoord[i][0]-departXY_tileWindowCoord[i][0])*scroll_progress);
+
+
+                    tilelist[i].style.borderRadius= format("{0}vw",8.13*scroll_progress);
+
+                    tilelist[i].style.transform = format("scale({0})", 1-scroll_progress);
+
+                }
+            }else if (window.scrollY>innerHeight*3) {
+                for(let i in open_prison_div){
+                    open_prison_div[i].classList.add("open");
+                }
+                for(let i in tilelist){
+
+                    tilelist[i].style.top=format("{0}px",0);
+                    tilelist[i].style.left=format("{0}px",0);
+                }
+
+            }else if (window.scrollY>innerHeight*2) {
+                acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
+                tile_frame.classList.add("scroll_locked");
+                for(let i in open_prison_div){
+                    open_prison_div[i].classList.remove("open");
+                }
+            }else{
+                // if (!tile_frame.classList.contains("fade_out")){
+                //         tile_frame.classList.add("fade_out");
+                // }
+            }
             ticking = false;
         });
     }
@@ -343,70 +408,67 @@ window.addEventListener("scroll", foo, { passive: true });
 document.addEventListener('scroll', function(e){
     // console.log(window.scrollY);
 
-    if(window.scrollY>innerHeight*6){
-        largemap_1.style.opacity = 0;
+    // if(window.scrollY>innerHeight*6){
+    //     largemap_1.style.opacity = 0;
 
 
-    }else if(window.scrollY>innerHeight*5){
-        console.log("map out");
-        tile_frame.style.opacity = 0;
+    // }else if(window.scrollY>innerHeight*5){
+    //     console.log("map out");
+    //     tile_frame.style.opacity = 0;
 
-        tile_frame.style.display = "none";
-        tile_frame.classList.add("fade_out");
+    //     tile_frame.style.display = "none";
+    //     tile_frame.classList.add("fade_out");
         
 
-        largemap_1.style.opacity = 1;
-        // tile_frame.classList.remove("scroll_locked");
+    //     largemap_1.style.opacity = 1;
+    //     // tile_frame.classList.remove("scroll_locked");
 
-    }else if (window.scrollY>innerHeight*4) {
-        console.log("thrid");
-        tile_frame.style.display = "block";
+    // }else if (window.scrollY>innerHeight*4) {
+    //     console.log("thrid");
+    //     tile_frame.style.display = "block";
 
-        scroll_progress = (window.scrollY-innerHeight*4)/innerHeight;
-        largemap_1.style.opacity = scroll_progress;
-        tile_frame.style.opacity = 1-scroll_progress;
-        for(let i in tilelist){
+    //     scroll_progress = (window.scrollY-innerHeight*4)/innerHeight;
+    //     largemap_1.style.opacity = scroll_progress;
+    //     tile_frame.style.opacity = 1-scroll_progress;
+    //     for(let i in tilelist){
 
-            tilelist[i].style.top=format("{0}px",(destXY_tileWindowCoord[i][1]-departXY_tileWindowCoord[i][1])*scroll_progress);
+    //         tilelist[i].style.top=format("{0}px",(destXY_tileWindowCoord[i][1]-departXY_tileWindowCoord[i][1])*scroll_progress);
 
 
-            tilelist[i].style.left=format("{0}px",(destXY_tileWindowCoord[i][0]-departXY_tileWindowCoord[i][0])*scroll_progress);
+    //         tilelist[i].style.left=format("{0}px",(destXY_tileWindowCoord[i][0]-departXY_tileWindowCoord[i][0])*scroll_progress);
             
 
-            tilelist[i].style.borderRadius= format("{0}vw",8.13*scroll_progress);
+    //         tilelist[i].style.borderRadius= format("{0}vw",8.13*scroll_progress);
 
-            tilelist[i].style.transform = format("scale({0})", 1-scroll_progress);
+    //         tilelist[i].style.transform = format("scale({0})", 1-scroll_progress);
 
-        }
-    }else if (window.scrollY>innerHeight*3) {
-        console.log("second");
-        for(let i in open_prison_div){
-            open_prison_div[i].classList.add("open");
-        }
-        for(let i in tilelist){
+    //     }
+    // }else if (window.scrollY>innerHeight*3) {
+    //     console.log("second");
+    //     for(let i in open_prison_div){
+    //         open_prison_div[i].classList.add("open");
+    //     }
+    //     for(let i in tilelist){
 
             
-            tilelist[i].style.top=format("{0}px",0);
-            tilelist[i].style.left=format("{0}px",0);
-        }
+    //         tilelist[i].style.top=format("{0}px",0);
+    //         tilelist[i].style.left=format("{0}px",0);
+    //     }
 
-    }else if (window.scrollY>innerHeight*2) {
-        acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
-        tile_frame.classList.add("scroll_locked");
-        for(let i in open_prison_div){
-            open_prison_div[i].classList.remove("open");
-        }
-    }else{
-        // if (!tile_frame.classList.contains("fade_out")){
-        //         tile_frame.classList.add("fade_out");
-        // }
-    }
+    // }else if (window.scrollY>innerHeight*2) {
+    //     acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
+    //     tile_frame.classList.add("scroll_locked");
+    //     for(let i in open_prison_div){
+    //         open_prison_div[i].classList.remove("open");
+    //     }
+    // }else{
+    //     // if (!tile_frame.classList.contains("fade_out")){
+    //     //         tile_frame.classList.add("fade_out");
+    //     // }
+    // }
 
 
   },{ passive: true });
-
-
-
 
 
 
@@ -414,7 +476,7 @@ document.addEventListener('scroll', function(e){
 
 function acquireTileLocation(boundinglnglat){
     for (let i in tilelist){
-        console.log("inside_tilelist");
+        // console.log("inside_tilelist");
         departXY_tileWindowCoord.push([tilelist[i].getBoundingClientRect().left, tilelist[i].getBoundingClientRect().top]);
 
         const destX_windowCoord = innerWidth/(boundinglnglat[2]-boundinglnglat[0])*(prisonLngLat[i][0]-boundinglnglat[0]);

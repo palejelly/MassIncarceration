@@ -1,5 +1,5 @@
 body {
-    height: 800vh;
+    height: 900vh;
     margin:0;
     padding:0;
     font-family: sans-serif;
@@ -14,13 +14,32 @@ a, a:hover, a:visited {
     position: fixed;
     opacity:0;
 }
-#largemap_1{
+#largemap_0{
     top:0;
     height: 100vh;
     width:100vw;
     opacity:0;
     position:fixed;
 }
+#largemap_1{
+
+    top:0;
+    height: 100vh;
+    width:100vw;
+    opacity:0;
+    position:fixed;
+    display: none;
+}
+#largemap_2{
+    top:0;
+    height: 100vh;
+    width:100vw;
+    opacity:0;
+    position:fixed;
+    display: none;
+}
+
+
 
 #header {
     margin: auto;
