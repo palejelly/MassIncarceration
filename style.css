@@ -38,9 +38,13 @@ a, a:hover, a:visited {
     position:fixed;
     display: none;
 }
-
-
-
+.temphover{
+    opacity:0.0;
+    transition: opacity 0.4s ease-in-out;
+}
+.temphover:hover{
+    opacity:0.8;
+}
 #header {
     margin: auto;
     width: 100%;
