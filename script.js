@@ -335,34 +335,40 @@ function foo() {
 
         ticking = true;
         requestAnimationFrame(() => {
-            if(window.scrollY>innerHeight*7){
-                largemap_2.style.display = "block";
-                largemap_2.style.opacity = 1;
-                largemap_1.style.opacity = 0;
-                largemap_1.style.display = "none";
+            if(window.scrollY>innerHeight*9){
+                // largemap_2.style.display = "block";
+                // largemap_2.style.opacity = 1;
+                // largemap_1.style.opacity = 0;
+                // largemap_1.style.display = "none";
+
+                largemap_2.classList.add("scroll_locked");
+                largemap_1.classList.remove("scroll_locked");
+
 
             }
-            else if(window.scrollY>innerHeight*6){
-                largemap_1.style.display = "block";
-                largemap_1.style.opacity = 1;
-                largemap_0.style.opacity = 0;
-                largemap_0.style.display = "none";
+            else if(window.scrollY>innerHeight*8){
+                // largemap_1.style.display = "block";
+                // largemap_1.style.opacity = 1;
+                // largemap_0.style.opacity = 0;
+                largemap_1.classList.add("scroll_locked");
+                largemap_0.classList.remove("scroll_locked");
 
 
-            }else if(window.scrollY>innerHeight*5){
+
+            }else if(window.scrollY>innerHeight*7){
                 tile_frame.style.opacity = 0;
 
                 tile_frame.style.display = "none";
                 tile_frame.classList.add("fade_out");
                 
+                largemap_0.classList.add("scroll_locked");
 
-                largemap_0.style.opacity = 1;
-                // tile_frame.classList.remove("scroll_locked");
+                // largemap_1.style.display = "block";
 
-            }else if (window.scrollY>innerHeight*4) {
+            }else if (window.scrollY>innerHeight*6) {
                 tile_frame.style.display = "block";
 
-                scroll_progress = (window.scrollY-innerHeight*4)/innerHeight;
+                scroll_progress = (window.scrollY-innerHeight*6)/innerHeight;
                 largemap_0.style.opacity = scroll_progress;
                 tile_frame.style.opacity = 1-scroll_progress;
                 for(let i in tilelist){
@@ -377,7 +383,7 @@ function foo() {
                     tilelist[i].style.transform = format("scale({0})", 1-scroll_progress);
 
                 }
-            }else if (window.scrollY>innerHeight*3) {
+            }else if (window.scrollY>innerHeight*5) {
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.add("open");
                 }
@@ -387,16 +393,15 @@ function foo() {
                     tilelist[i].style.left=format("{0}px",0);
                 }
 
-            }else if (window.scrollY>innerHeight*2) {
+            }else if (window.scrollY>innerHeight*4) {
                 acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
                 tile_frame.classList.add("scroll_locked");
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.remove("open");
                 }
-            }else{
-                // if (!tile_frame.classList.contains("fade_out")){
-                //         tile_frame.classList.add("fade_out");
-                // }
+            }else if(window.scrollY>innerHeight*3){
+                tile_frame.classList.remove("scroll_locked");
+
             }
             ticking = false;
         });
@@ -405,70 +410,6 @@ function foo() {
 
 window.addEventListener("scroll", foo, { passive: true });
 
-document.addEventListener('scroll', function(e){
-    // console.log(window.scrollY);
-
-    // if(window.scrollY>innerHeight*6){
-    //     largemap_1.style.opacity = 0;
-
-
-    // }else if(window.scrollY>innerHeight*5){
-    //     console.log("map out");
-    //     tile_frame.style.opacity = 0;
-
-    //     tile_frame.style.display = "none";
-    //     tile_frame.classList.add("fade_out");
-        
-
-    //     largemap_1.style.opacity = 1;
-    //     // tile_frame.classList.remove("scroll_locked");
-
-    // }else if (window.scrollY>innerHeight*4) {
-    //     console.log("thrid");
-    //     tile_frame.style.display = "block";
-
-    //     scroll_progress = (window.scrollY-innerHeight*4)/innerHeight;
-    //     largemap_1.style.opacity = scroll_progress;
-    //     tile_frame.style.opacity = 1-scroll_progress;
-    //     for(let i in tilelist){
-
-    //         tilelist[i].style.top=format("{0}px",(destXY_tileWindowCoord[i][1]-departXY_tileWindowCoord[i][1])*scroll_progress);
-
-
-    //         tilelist[i].style.left=format("{0}px",(destXY_tileWindowCoord[i][0]-departXY_tileWindowCoord[i][0])*scroll_progress);
-            
-
-    //         tilelist[i].style.borderRadius= format("{0}vw",8.13*scroll_progress);
-
-    //         tilelist[i].style.transform = format("scale({0})", 1-scroll_progress);
-
-    //     }
-    // }else if (window.scrollY>innerHeight*3) {
-    //     console.log("second");
-    //     for(let i in open_prison_div){
-    //         open_prison_div[i].classList.add("open");
-    //     }
-    //     for(let i in tilelist){
-
-            
-    //         tilelist[i].style.top=format("{0}px",0);
-    //         tilelist[i].style.left=format("{0}px",0);
-    //     }
-
-    // }else if (window.scrollY>innerHeight*2) {
-    //     acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
-    //     tile_frame.classList.add("scroll_locked");
-    //     for(let i in open_prison_div){
-    //         open_prison_div[i].classList.remove("open");
-    //     }
-    // }else{
-    //     // if (!tile_frame.classList.contains("fade_out")){
-    //     //         tile_frame.classList.add("fade_out");
-    //     // }
-    // }
-
-
-  },{ passive: true });
 
 
 
@@ -486,10 +427,10 @@ function acquireTileLocation(boundinglnglat){
 
 
     }
-    // console.log("departXY",departXY_tileWindowCoord);
-    // console.log("destXY",destXY_tileWindowCoord);
 
 }
+
+
 
 
 
