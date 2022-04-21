@@ -16,6 +16,7 @@ var alignments = {
     'fixed_left': 'fixed_left'
 }
 
+const tile_starts_slidenum = 3;
 var prisonLngLat = [];
 var departXY_tileWindowCoord = [];
 var destXY_tileWindowCoord = [];
@@ -54,7 +55,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 var tile_frame= document.querySelector("#tile_frame.slide");
-  
 var largemap_0= document.querySelector("#largemap_0");
 var largemap_1= document.querySelector("#largemap_1");
 var largemap_2= document.querySelector("#largemap_2");
@@ -310,32 +310,20 @@ for (let i=0; i<list_length ; i++){
 const only_closed_checkbox = document.querySelector('input[id="only_closed"]');
 
 
-
-// only_closed_checkbox.onclick = () => {
-//     if(only_closed_checkbox.checked){
-//         for (let i in open_prison_div){
-//             open_prison_div[i].classList.add('open');
-//         }
-//     }
-//     else{
-//         for (let i in open_prison_div){
-//             open_prison_div[i].classList.remove('open');
-//         }
-//     }
-// }
-
-
 // ----------------------tiling part ended.
 
 
 let ticking = false;
+var current_chapter = 1;
 
 function foo() {
     if (!ticking) {
 
         ticking = true;
         requestAnimationFrame(() => {
-            if(window.scrollY>innerHeight*9){
+            current_chapter = window.scrollY/innerHeight+1;
+            // console.log(current_chapter);
+            if(current_chapter>=8){
                 // largemap_2.style.display = "block";
                 // largemap_2.style.opacity = 1;
                 // largemap_1.style.opacity = 0;
@@ -346,31 +334,38 @@ function foo() {
 
 
             }
-            else if(window.scrollY>innerHeight*8){
+            else if(current_chapter>=7.5){
                 // largemap_1.style.display = "block";
                 // largemap_1.style.opacity = 1;
                 // largemap_0.style.opacity = 0;
                 largemap_1.classList.add("scroll_locked");
                 largemap_0.classList.remove("scroll_locked");
+                largemap_2.classList.remove("scroll_locked");
 
 
 
-            }else if(window.scrollY>innerHeight*7){
+
+            }else if(current_chapter>=7){
                 tile_frame.style.opacity = 0;
 
                 tile_frame.style.display = "none";
                 tile_frame.classList.add("fade_out");
                 
                 largemap_0.classList.add("scroll_locked");
+                largemap_1.classList.remove("scroll_locked");
+                largemap_2.classList.remove("scroll_locked");
 
+
+                largemap_0.style.opacity = 1;
                 // largemap_1.style.display = "block";
 
-            }else if (window.scrollY>innerHeight*6) {
+            }else if (current_chapter>=6) {
                 tile_frame.style.display = "block";
 
-                scroll_progress = (window.scrollY-innerHeight*6)/innerHeight;
+                scroll_progress = (window.scrollY-innerHeight*5)/innerHeight;
                 largemap_0.style.opacity = scroll_progress;
                 tile_frame.style.opacity = 1-scroll_progress;
+                
                 for(let i in tilelist){
 
                     tilelist[i].style.top=format("{0}px",(destXY_tileWindowCoord[i][1]-departXY_tileWindowCoord[i][1])*scroll_progress);
@@ -383,7 +378,7 @@ function foo() {
                     tilelist[i].style.transform = format("scale({0})", 1-scroll_progress);
 
                 }
-            }else if (window.scrollY>innerHeight*5) {
+            }else if (current_chapter>=5) {
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.add("open");
                 }
@@ -393,13 +388,13 @@ function foo() {
                     tilelist[i].style.left=format("{0}px",0);
                 }
 
-            }else if (window.scrollY>innerHeight*4) {
+            }else if (current_chapter>=4) {
                 acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
                 tile_frame.classList.add("scroll_locked");
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.remove("open");
                 }
-            }else if(window.scrollY>innerHeight*3){
+            }else if(current_chapter>=3){
                 tile_frame.classList.remove("scroll_locked");
 
             }
@@ -620,8 +615,12 @@ window.onbeforeunload = function (e) {
     // For IE and Firefox
     if (e) {
         e.returnValue = 'Leaving the page';
+        window.scrollTo(0, 0);
     }
 
     // For Safari
     return 'Leaving the page';
+    window.scrollTo(0,0);
+
+
 };
