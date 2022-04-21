@@ -107,7 +107,7 @@ function csvToArray(str, delimiter = ",") {
   
   
 // get info from csv
-var url = "https://palejelly.github.io/MapboxImageTileCSV/CoEditVer_NewYorkStatePrisons.csv";
+var url = "https://palejelly.github.io/MapboxImageTileCSV/CoEditVer_NewYorkStatePrisons2.csv";
 var request = new XMLHttpRequest();  
 request.open("GET", url, false);   
 request.send(null);  
@@ -323,7 +323,7 @@ function foo() {
         requestAnimationFrame(() => {
             current_chapter = window.scrollY/innerHeight+1;
             // console.log(current_chapter);
-            if(current_chapter>=8){
+            if(current_chapter>=tile_starts_slidenum+4){
                 // largemap_2.style.display = "block";
                 // largemap_2.style.opacity = 1;
                 // largemap_1.style.opacity = 0;
@@ -334,7 +334,7 @@ function foo() {
 
 
             }
-            else if(current_chapter>=7.5){
+            else if(current_chapter>=tile_starts_slidenum+3.5){
                 // largemap_1.style.display = "block";
                 // largemap_1.style.opacity = 1;
                 // largemap_0.style.opacity = 0;
@@ -345,7 +345,7 @@ function foo() {
 
 
 
-            }else if(current_chapter>=7){
+            }else if(current_chapter>=tile_starts_slidenum+3){
                 tile_frame.style.opacity = 0;
 
                 tile_frame.style.display = "none";
@@ -359,12 +359,13 @@ function foo() {
                 largemap_0.style.opacity = 1;
                 // largemap_1.style.display = "block";
 
-            }else if (current_chapter>=6) {
+            }else if (current_chapter>=tile_starts_slidenum+2) {
                 tile_frame.style.display = "block";
 
-                scroll_progress = (window.scrollY-innerHeight*5)/innerHeight;
+                scroll_progress = (window.scrollY-innerHeight*(tile_starts_slidenum+1))/innerHeight;
                 largemap_0.style.opacity = scroll_progress;
                 tile_frame.style.opacity = 1-scroll_progress;
+                console.log(scroll_progress);
                 
                 for(let i in tilelist){
 
@@ -378,7 +379,7 @@ function foo() {
                     tilelist[i].style.transform = format("scale({0})", 1-scroll_progress);
 
                 }
-            }else if (current_chapter>=5) {
+            }else if (current_chapter>=tile_starts_slidenum+1) {
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.add("open");
                 }
@@ -388,13 +389,13 @@ function foo() {
                     tilelist[i].style.left=format("{0}px",0);
                 }
 
-            }else if (current_chapter>=4) {
+            }else if (current_chapter>=tile_starts_slidenum) {
                 acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
                 tile_frame.classList.add("scroll_locked");
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.remove("open");
                 }
-            }else if(current_chapter>=3){
+            }else if(current_chapter>=tile_starts_slidenum-1){
                 tile_frame.classList.remove("scroll_locked");
 
             }
