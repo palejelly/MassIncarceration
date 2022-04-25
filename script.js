@@ -55,6 +55,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 var tile_frame= document.querySelector("#tile_frame.slide");
+var prison_timeline = document.querySelector("#prison_timeline");
 var largemap_0= document.querySelector("#largemap_0");
 var largemap_1= document.querySelector("#largemap_1");
 var largemap_2= document.querySelector("#largemap_2");
@@ -67,6 +68,7 @@ var common_style = "satellite-v9"
 var username = "mapbox"
 
 var insert_point = document.getElementById("tile_frame")
+var insert_point_cover = document.getElementById("tile_in_cover")
 var open_prison_div = [];
 
 var initial_zoom_level = 6;
@@ -135,20 +137,32 @@ for (let i=0; i<list_length ; i++){
     var line = test_arr[i]
 
     var box = document.createElement("div");
+    var box_in_cover = document.createElement("div");
     var img_tag = document.createElement("img");
+    var img_tag_cover = document.createElement("img");
     
 
     img_tag.classList.add('center-cropped');
     img_tag.setAttribute('alt',String(i));
+
+    img_tag_cover.classList.add('center-cropped');
+    img_tag_cover.setAttribute('alt',String(i));
     
 
     box.setAttribute('id','map'.concat(String(i)));
     box.classList.add('tile');
-    
+
+    box_in_cover.setAttribute('id','map_cover'.concat(String(i)));
+    box_in_cover.classList.add('tile');
 
     box_dom=insert_point.appendChild(box);
+    box_cover_dom = insert_point_cover.appendChild(box_in_cover);
+    
     box_insertpoint= document.getElementById('map'.concat(String(i)));
-    box_insertpoint.appendChild(img_tag);
+    box_insertpoint.appendChild(img_tag);    
+
+    box_insertpoint_cover= document.getElementById('map_cover'.concat(String(i)));
+    box_insertpoint_cover.appendChild(img_tag_cover);
 
     tilelist.push(box);
 
@@ -189,6 +203,7 @@ for (let i=0; i<list_length ; i++){
             // Get image from mapbox using html post,get
             try{
                 img_tag.setAttribute('src',getAddress(username,common_style,coord['lng'],coord['lat'],common_zoom_level,600,600))
+                img_tag_cover.setAttribute('src',getAddress(username,common_style,coord['lng'],coord['lat'],common_zoom_level,600,600))
             }catch(error){
                 console.log("there's an error on i="+i);
                 console.log(error);
@@ -312,7 +327,7 @@ const only_closed_checkbox = document.querySelector('input[id="only_closed"]');
 
 // ----------------------tiling part ended.
 
-
+// --------------------------SCROLLING PART ---------------------------------
 let ticking = false;
 var current_chapter = 1;
 
@@ -321,8 +336,9 @@ function foo() {
 
         ticking = true;
         requestAnimationFrame(() => {
-            current_chapter = window.scrollY/innerHeight+1;
-            // console.log(current_chapter);
+            //chapter starts from 1 
+
+            current_chapter = Math.floor(window.scrollY/innerHeight+1);
             if(current_chapter>=tile_starts_slidenum+4){
                 // largemap_2.style.display = "block";
                 // largemap_2.style.opacity = 1;
@@ -365,7 +381,6 @@ function foo() {
                 scroll_progress = (window.scrollY-innerHeight*(tile_starts_slidenum+1))/innerHeight;
                 largemap_0.style.opacity = scroll_progress;
                 tile_frame.style.opacity = 1-scroll_progress;
-                console.log(scroll_progress);
                 
                 for(let i in tilelist){
 
@@ -387,18 +402,32 @@ function foo() {
 
                     tilelist[i].style.top=format("{0}px",0);
                     tilelist[i].style.left=format("{0}px",0);
+                    tilelist[i].style.borderRadius= "0px";
+
+                    tilelist[i].style.transform = "none";
+
                 }
 
             }else if (current_chapter>=tile_starts_slidenum) {
                 acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
                 tile_frame.classList.add("scroll_locked");
+                prison_timeline.classList.remove("scroll_locked");
+
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.remove("open");
                 }
+
             }else if(current_chapter>=tile_starts_slidenum-1){
                 tile_frame.classList.remove("scroll_locked");
+                prison_timeline.setAttribute("scrolling","yes");
+                prison_timeline.classList.add("scroll_locked");
 
-            }
+            }else if(current_chapter<=1){
+                // console.log("set scrolling to no");
+                prison_timeline.setAttribute("scrolling","no");
+                prison_timeline.classList.remove("scroll_locked");
+
+            }   
             ticking = false;
         });
     }
