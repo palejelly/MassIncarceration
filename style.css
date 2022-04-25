@@ -55,7 +55,7 @@ iframe{
 
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     font: .9em/1em 'Open Sans', sans-serif;
-    line-height: 2.5em;
+    line-height: 2.0em;
     padding: 1em 2em 0em;
     position: absolute;
     max-width: 25%;
@@ -170,7 +170,6 @@ iframe{
 
 }
 
-
 #tile_frame.scroll_locked{
     position:fixed;
     z-index:2;
@@ -202,7 +201,7 @@ iframe{
 
 
     position:relative;
-    /* transition: opacity 0.5s ease-in-out; */
+    transition: opacity 0.3s ease-in-out;
 
     object-fit:none;
     object-position:center;
@@ -232,7 +231,9 @@ iframe{
     font-size:13px;
     margin:0;
     line-height: 14px;
-
+}
+.tile_hover_text>p.name{
+    font-weight: bold;
 }
 
 
