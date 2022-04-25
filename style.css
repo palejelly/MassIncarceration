@@ -114,7 +114,7 @@ iframe{
 }
 .slide {
     background-color: black;
-    border: 1px white solid;
+    /* border: 1px white solid; */
     height: 100vh;
     width: 100vw;
     z-index: 999;
