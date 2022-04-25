@@ -339,7 +339,7 @@ function foo() {
             //chapter starts from 1 
 
             current_chapter = Math.floor(window.scrollY/innerHeight+1);
-            if(current_chapter>=tile_starts_slidenum+4){
+            if(current_chapter>=tile_starts_slidenum+5){
                 // largemap_2.style.display = "block";
                 // largemap_2.style.opacity = 1;
                 // largemap_1.style.opacity = 0;
@@ -350,7 +350,7 @@ function foo() {
 
 
             }
-            else if(current_chapter>=tile_starts_slidenum+3.5){
+            else if(current_chapter>=tile_starts_slidenum+4){
                 // largemap_1.style.display = "block";
                 // largemap_1.style.opacity = 1;
                 // largemap_0.style.opacity = 0;
