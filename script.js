@@ -159,7 +159,7 @@ for (let i=0; i<list_length ; i++){
     box_cover_dom = insert_point_cover.appendChild(box_in_cover);
     
     box_insertpoint= document.getElementById('map'.concat(String(i)));
-    box_insertpoint.appendChild(img_tag);    
+    box_insertpoint.appendChild(img_tag);  
 
     box_insertpoint_cover= document.getElementById('map_cover'.concat(String(i)));
     box_insertpoint_cover.appendChild(img_tag_cover);
@@ -327,6 +327,27 @@ const only_closed_checkbox = document.querySelector('input[id="only_closed"]');
 
 // ----------------------tiling part ended.
 
+// --------- MOUSE OVER behavior of text box
+var prisons_textbox_70=document.querySelector("#prisons_textbox_70");
+var prisons_textbox_26=document.querySelector("#prisons_textbox_26");
+
+prisons_textbox_70.addEventListener("mouseenter", function( event ) {
+    // highlight the mouseover target
+    event.target.style.opacity = "0";
+    setTimeout(function() {
+        event.target.style.display = "none";
+    }, 200);
+  
+    // reset the color after a short delay
+    setTimeout(function() {
+        event.target.style.display = "block";
+        event.target.style.opacity = "0.8";
+    }, 20000);
+  }, false);
+  
+
+
+
 // --------------------------SCROLLING PART ---------------------------------
 let ticking = false;
 var current_chapter = 1;
@@ -376,6 +397,8 @@ function foo() {
                 // largemap_1.style.display = "block";
 
             }else if (current_chapter>=tile_starts_slidenum+2) {
+                largemap_0.classList.remove("scroll_locked");
+                largemap_1.classList.remove("scroll_locked");
                 tile_frame.style.display = "block";
 
                 scroll_progress = (window.scrollY-innerHeight*(tile_starts_slidenum+1))/innerHeight;
@@ -395,9 +418,12 @@ function foo() {
 
                 }
             }else if (current_chapter>=tile_starts_slidenum+1) {
+                
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.add("open");
                 }
+                tile_frame.classList.add("closing");
+
                 for(let i in tilelist){
 
                     tilelist[i].style.top=format("{0}px",0);
@@ -405,13 +431,14 @@ function foo() {
                     tilelist[i].style.borderRadius= "0px";
 
                     tilelist[i].style.transform = "none";
-
                 }
 
             }else if (current_chapter>=tile_starts_slidenum) {
                 acquireTileLocation([-80.535294, 40.244927, -66.533218, 45.347304]);
                 tile_frame.classList.add("scroll_locked");
                 prison_timeline.classList.remove("scroll_locked");
+                tile_frame.classList.remove("closing");
+
 
                 for(let i in open_prison_div){
                     open_prison_div[i].classList.remove("open");
@@ -421,6 +448,7 @@ function foo() {
                 tile_frame.classList.remove("scroll_locked");
                 prison_timeline.setAttribute("scrolling","yes");
                 prison_timeline.classList.add("scroll_locked");
+
 
             }else if(current_chapter<=1){
                 // console.log("set scrolling to no");

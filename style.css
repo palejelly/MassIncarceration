@@ -64,10 +64,11 @@ iframe{
     max-width: 25%;
 
 }
-.temphover:hover{
+/* .temphover:hover{
     opacity:0.0;
     z-index: 0;
-}
+    display:none;
+} */
 .subtitle{
     position: absolute;
     top: 7vh;
@@ -146,7 +147,6 @@ iframe{
 }
 #tile_frame_frame{
     height:300vh;
-    /* background-color: red; */
 }
 #tile_frame{
     position:relative;
@@ -154,6 +154,8 @@ iframe{
     left:0;
     background-color:#fafafa;
     line-height: 0;
+    margin-top: calc(50vh - 25.5vw);
+
 }
 .scroll_locked{
     position:fixed;
@@ -197,6 +199,7 @@ iframe{
     transition-property: border-radius, top, left, height, width, opacity;
 }
 
+
 .tile>img.center-cropped{
     top:0;
     left:0;
@@ -211,6 +214,27 @@ iframe{
     width:100%;
     height:auto;
 }
+#tile_frame.closing>#prisons_textbox_70{
+    display : none;
+}
+#tile_frame.closing>#prisons_textbox_26{
+    display: block;
+    animation: fade_in_show 1s
+}
+@keyframes fade_in_show {
+    0% {
+         opacity: 0;
+    }
+
+    100% {
+         opacity: 0.8;
+    }
+}
+#prisons_textbox_26{
+    display: none;
+}    
+
+
 #tile_frame>.tile>img.center-cropped:hover{
     opacity:0;
 }
