@@ -31,19 +31,13 @@ iframe{
     width:100vw;
 }
 
-#largemap_1{
+#largemap_1,#largemap_2,#largemap_3{
     height: 100vh;
     width:100vw;
     opacity: 0;
     z-index: -1;
 }
 
-#largemap_2{
-    height: 100vh;
-    width:100vw;
-    opacity: 0;
-    z-index: -1;
-}
 .temphover{
     opacity:0.8;
     z-index: 9999;
@@ -163,14 +157,14 @@ iframe{
     z-index:1;
     opacity: 1;
 }
-#largemap_1.scroll_locked, #largemap_2.scroll_locked{
+#largemap_1.scroll_locked, #largemap_2.scroll_locked,#largemap_3.scroll_locked{
     position:fixed;
     top:0;
     z-index:1;
     opacity: 1;
 
 }
-#largemap_0,#largemap_1,#largemap_2{
+#largemap_0,#largemap_1,#largemap_2,#largemap_3{
     transition: opacity 0.5s ease-in-out;
 
 }

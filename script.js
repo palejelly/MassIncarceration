@@ -59,6 +59,7 @@ var prison_timeline = document.querySelector("#prison_timeline");
 var largemap_0= document.querySelector("#largemap_0");
 var largemap_1= document.querySelector("#largemap_1");
 var largemap_2= document.querySelector("#largemap_2");
+var largemap_3= document.querySelector("#largemap_3");
 
 
 //--------------------------------- tiling part starts --------------------------------
@@ -360,7 +361,12 @@ function foo() {
             //chapter starts from 1 
 
             current_chapter = Math.floor(window.scrollY/innerHeight+1);
-            if(current_chapter>=tile_starts_slidenum+5){
+            if(current_chapter>=tile_starts_slidenum+6){
+                largemap_3.classList.add("scroll_locked");
+                largemap_2.classList.remove("scroll_locked");
+
+            }
+            else if(current_chapter>=tile_starts_slidenum+5){
                 // largemap_2.style.display = "block";
                 // largemap_2.style.opacity = 1;
                 // largemap_1.style.opacity = 0;
@@ -368,6 +374,7 @@ function foo() {
 
                 largemap_2.classList.add("scroll_locked");
                 largemap_1.classList.remove("scroll_locked");
+                largemap_3.classList.remove("scroll_locked");
 
 
             }
